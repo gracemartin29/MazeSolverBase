@@ -11,7 +11,7 @@ MazeSolver::MazeSolver() {
 }
 
 void MazeSolver::followLine() {
-   // get position & error
+  // get position & error
   int16_t position = lineSensors.readLineBlack(lineSensorValues);
   int16_t error = position - 2000;
 
@@ -29,7 +29,6 @@ void MazeSolver::followLine() {
 
   // update motor speed
   motors.setSpeeds(leftSpeed, rightSpeed);
-
 }
 
 void MazeSolver::loop() {
@@ -39,14 +38,26 @@ void MazeSolver::loop() {
 
   if (state == JUNCTION) {
     // call junciton identifier function
+    motors.setSpeeds(0, 0);
+    display.clear();
+    display.print('J');
   }
   if (state == TURN_LEFT) {
     // call left turn function
+    motors.setSpeeds(0, 0);
+    display.clear();
+    display.print('L');
   }
   if (state == U_TURN) {
     // call u turn function
+    motors.setSpeeds(0, 0);
+    display.clear();
+    display.print('U');
   }
   if (state == FINISHED) {
+    motors.setSpeeds(0, 0);
+    display.clear();
+    display.print('F');
     return;
   }
 }
