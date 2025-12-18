@@ -29,6 +29,7 @@ class MazeSolver {
       if(state == JUNCTION){
         motors.setSpeeds(0, 0);
       }
+      identifyJunction();
     }
 
 };
@@ -84,4 +85,40 @@ class MazeSolver {
       state = TURN_LEFT;
     }
   }  
+
+  // turn left
+  void MazeSolver::turnLeft(){
+    //step forward
+    motors.setSpeeds(baseSpeed, baseSpeed);
+    delay(50);
+    //turn left 90 degrees (which value is which side of the motor?
+    motors.setSpeeds(-baseSpeed, baseSpeed);
+    // how long does it take to turn 90 degrees?
+    delay(50);
+    // change state back
+    state = LINE_FOLLOWER;
+
+  }
+
+  // checking for dead ends
+  void MazeSolver::checkIfDeadEnd(){
+    // dead end
+    if(lineSensorValues[0] = 0 & lineSensorValues[1] = 0 & lineSensorValues[2] = 0 & lineSensorValues[3] = 0 & lineSensorValues[4] = 0){
+      return true;
+
+      // stop and prepare to U turn
+      motors.setSpeeds(0, 0);
+      state = U_TURN;
+      
+    } else {
+      return false;
+    }
+  }
+
+  void MazeSolver::uTurn(){
+    // turn 180 degrees
+    motor.setSpeeds(-baseSpeed, baseSpeed);
+    delay(100); // how long does it take to turn 180 degrees?
+    state = LINE_FOLLOWER;
+  }
 #endif
