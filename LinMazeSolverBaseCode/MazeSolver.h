@@ -15,9 +15,22 @@ class MazeSolver {
   State state; // value of type state
 
   void followLine();
+  checkIfJunction(); //new code!!
+  
+  public:
 
-  // !!new code!! detecting junctions
-  void checkIfJunction(){ 
+    // constructor
+    MazeSolver();
+
+    // function to be called at every main loop
+    void loop();
+
+};
+
+//////////////////////////////////////
+// !!new code!! detecting junctions //
+//////////////////////////////////////
+  void MazeSolver::checkIfJunction(){ 
       //half T (left) junction
       if(lineSensorValues[0] > 950 & lineSensorValues[2]>950){
         state = JUNCTION; 
@@ -36,14 +49,4 @@ class MazeSolver {
       }
   }
   
-  public:
-
-    // constructor
-    MazeSolver();
-
-    // function to be called at every main loop
-    void loop();
-
-};
-
 #endif
