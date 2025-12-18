@@ -15,6 +15,26 @@ class MazeSolver {
   State state; // value of type state
 
   void followLine();
+
+  // !!new code!! detecting junctions
+  void checkIfJunction(){ 
+      //half T (left) junction
+      if(lineSensorValues[0] > 950 & lineSensorValues[2]>950){
+        state = JUNCTION; 
+      }
+      //half T (right) junction
+      if(linSensorValues[2] > 950 & lineSensorValues[3]/*why sensor 3 not 4?*/ > 950{
+        state = JUNCTION;
+      }
+      // cross junction
+      if(lineSensorValues[0] > 950 & lineSensorValues[2] > 950 & lineSensorValues[4] > 950){
+        state = JUNCTION;
+      }
+      // T junction
+      if(linSensorValues[0] > 950 & lineSensorValues[4] > 950){
+        state = JUNCTION;
+      }
+  }
   
   public:
 
@@ -27,4 +47,3 @@ class MazeSolver {
 };
 
 #endif
-
