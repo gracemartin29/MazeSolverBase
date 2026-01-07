@@ -44,8 +44,8 @@ class MazeSolver {
         state = JUNCTION; 
       }
       //half T (right) junction
-      if(linSensorValues[2] > 950 & lineSensorValues[3]/*why sensor 3 not 4?*/ > 950{
-        state = JUNCTION;
+      if(linSensorValues[2] > 950 & lineSensorValues[3]/*why sensor 3 not 4?!!!!*/ > 950{
+        state = JUNCTION; 
       }
       // cross junction
       if(lineSensorValues[0] > 950 & lineSensorValues[2] > 950 & lineSensorValues[4] > 950){
@@ -56,7 +56,7 @@ class MazeSolver {
         state = JUNCTION;
       }
   }
-  
+  /*
   //identifying junctions
   void MazeSolver::identifyJunction(){
     motors.setSpeeds(baseSpeed, baseSpeed);
@@ -73,7 +73,7 @@ class MazeSolver {
       state = TURN_LEFT; 
     }
     //half T (right) junction
-    else if(linSensorValues[2] > 950 & lineSensorValues[3]/*why sensor 3 not 4?*/ > 950{
+    else if(linSensorValues[2] > 950 & lineSensorValues[3]/*why sensor 3 not 4?!!!!*/ /*> 950{
       state = FOLLOW_LINE;
     }
     // cross junction
@@ -121,4 +121,5 @@ class MazeSolver {
     delay(100); // how long does it take to turn 180 degrees?
     state = LINE_FOLLOWER;
   }
+*/
 #endif

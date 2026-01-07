@@ -70,7 +70,7 @@ MazeSolver mazeSolver;
 void selectStandard()
 {
   maxSpeed = 200;
-  minSpeed = 0;
+  minSpeed = -200;
   baseSpeed = maxSpeed;
   calibrationSpeed = 60;
   proportional = 64; // P coefficient = 1/4
