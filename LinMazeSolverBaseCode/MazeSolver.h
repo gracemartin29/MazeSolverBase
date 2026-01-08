@@ -15,7 +15,13 @@ class MazeSolver {
   State state; // value of type state
 
   void followLine();
-  checkIfJunction(); //new code!!
+  
+  void checkIfJunction(); //new code!!
+  void identifyJunction(); 
+  void turnLeft();
+  void checkIfDeadEnd();
+  void uTurn(); //!!
+  
   
   public:
 
@@ -24,6 +30,7 @@ class MazeSolver {
 
     // function to be called at every main loop
     //void loop(); //original!!
+    
     // new replaced code!! (unsure if correct)
     void loop(){
       if(state == JUNCTION){
@@ -44,7 +51,7 @@ class MazeSolver {
         state = JUNCTION; 
       }
       //half T (right) junction
-      if(linSensorValues[2] > 950 & lineSensorValues[3]/*why sensor 3 not 4?!!!!*/ > 950{
+      if(lineSensorValues[2] > 950 & lineSensorValues[3] > 950){
         state = JUNCTION; 
       }
       // cross junction
@@ -52,11 +59,10 @@ class MazeSolver {
         state = JUNCTION;
       }
       // T junction
-      if(linSensorValues[0] > 950 & lineSensorValues[4] > 950){
+      if(lineSensorValues[0] > 950 & lineSensorValues[4] > 950){
         state = JUNCTION;
       }
   }
-  /*
   //identifying junctions
   void MazeSolver::identifyJunction(){
     motors.setSpeeds(baseSpeed, baseSpeed);
@@ -73,15 +79,15 @@ class MazeSolver {
       state = TURN_LEFT; 
     }
     //half T (right) junction
-    else if(linSensorValues[2] > 950 & lineSensorValues[3]/*why sensor 3 not 4?!!!!*/ /*> 950{
-      state = FOLLOW_LINE;
+    else if(lineSensorValues[2] > 950 & lineSensorValues[3] > 950){
+      state = LINE_FOLLOWER;
     }
     // cross junction
     else if(lineSensorValues[0] > 950 & lineSensorValues[2] > 950 & lineSensorValues[4] > 950){
       state = TURN_LEFT;
     }
     // T junction
-    else if(linSensorValues[0] > 950 & lineSensorValues[4] > 950){
+    else if(lineSensorValues[0] > 950 & lineSensorValues[4] > 950){
       state = TURN_LEFT;
     }
   }  
@@ -103,7 +109,7 @@ class MazeSolver {
   // checking for dead ends
   void MazeSolver::checkIfDeadEnd(){
     // dead end
-    if(lineSensorValues[0] = 0 & lineSensorValues[1] = 0 & lineSensorValues[2] = 0 & lineSensorValues[3] = 0 & lineSensorValues[4] = 0){
+    if(lineSensorValues[0] == 0 & lineSensorValues[1] == 0 & lineSensorValues[2] == 0 & lineSensorValues[3] == 0 & lineSensorValues[4] == 0){
       return true;
 
       // stop and prepare to U turn
@@ -117,9 +123,9 @@ class MazeSolver {
 
   void MazeSolver::uTurn(){
     // turn 180 degrees
-    motor.setSpeeds(-baseSpeed, baseSpeed);
+    motors.setSpeeds(-baseSpeed, baseSpeed);
     delay(100); // how long does it take to turn 180 degrees?
     state = LINE_FOLLOWER;
   }
-*/
+
 #endif
