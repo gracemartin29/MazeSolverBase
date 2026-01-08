@@ -36,6 +36,11 @@ class MazeSolver {
       if(state == JUNCTION){
         motors.setSpeeds(0, 0);
       }
+
+      if(state == FINISHED & state == TURN_LEFT){
+        motors.setSpeeds(0, 0);
+        display.print(state);
+      }
       identifyJunction();
     }
 
