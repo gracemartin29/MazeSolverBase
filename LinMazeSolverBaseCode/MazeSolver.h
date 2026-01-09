@@ -12,6 +12,14 @@ enum State {
   FAKE_END
 };
 
+// Decisions needing to be remembered
+enum Decisions {
+  RIGHT,
+  LEFT,
+  BACK,
+  FORWARD
+};
+
 class MazeSolver {
   private:
   State state; // value of type state
