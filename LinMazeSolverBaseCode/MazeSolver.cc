@@ -33,6 +33,7 @@ void MazeSolver::simplifyPath(){
       path[count - 1] = NONE;
       path[count] = NONE;
     }
+    count = count - 2;
   }
 
   return;
@@ -118,8 +119,9 @@ void MazeSolver::checkIfDeadEnd() {
 
     // update path
     path[count] = BACK;
-    count++;
     simplifyPath();
+    count++;
+
 
     // display path
     showPath();
@@ -151,8 +153,8 @@ void MazeSolver::identifyJunction() {
     if(lineSensorValues[2] > 750 || lineSensorValues[4] > 750){
           // update path
     path[count] = LEFT;
-    count++;
     simplifyPath();
+    count++;
 
     // display path
     showPath();
@@ -172,8 +174,8 @@ void MazeSolver::identifyJunction() {
 
     // update path
     path[count] = FORWARD;
-    count++;
     simplifyPath();
+    count++;
 
     // display path
     showPath();
