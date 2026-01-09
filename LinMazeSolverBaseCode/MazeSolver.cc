@@ -99,10 +99,7 @@ void MazeSolver::checkIfDeadEnd() {
 
 void MazeSolver::identifyJunction() {
 
-
   delay(500);
-
-
 
   // move forward to identify other junctions
   motors.setSpeeds(baseSpeed, baseSpeed);
@@ -121,15 +118,17 @@ void MazeSolver::identifyJunction() {
 
   // if there's a left take it
   if (lineSensorValues[0] > 750) {
-    state = TURN_LEFT;
-
-    // update path
+    // if left is a jucntion add to path
+    if(lineSensorValues[2] > 750 || lineSensorValues[4] > 750){
+          // update path
     path[count] = LEFT;
     count++;
 
     // display path
     showPath();
+    }
 
+    state = TURN_LEFT;
     return;
 
   }
@@ -156,13 +155,13 @@ void MazeSolver::identifyJunction() {
     state = TURN_RIGHT;
     
     // update path
-    path[count] = RIGHT;
+    /*path[count] = RIGHT;
     count++;
 
     // display path
-    showPath();
+    showPath();*/
     return;
-
+ 
   }
 
 
