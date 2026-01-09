@@ -28,6 +28,8 @@ class MazeSolver {
   Decisions path[64]; //creates vector for remembering path
   int count = 0; 
 
+  void simplifyPath();
+
   void showPath();
 
   char convertToCharacter(Decisions name);

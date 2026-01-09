@@ -10,6 +10,34 @@ MazeSolver::MazeSolver() {
   state = LINE_FOLLOWER;
 }
 
+//simplifies paths
+void MazeSolver::simplifyPath(){
+  if(path[count - 1] == BACK){
+    // LBL = F
+    if(path[count - 2] == LEFT && path[count] == LEFT){
+      path[count - 2] = FORWARD;
+      path[count - 1] = NONE;
+      path[count] = NONE;
+    }
+
+    //LBF OR FBL = R
+    if((path[count - 2] == LEFT && path[count] == FORWARD) || (path[count - 2] == FORWARD && path[count] == LEFT)){
+      path[count - 2] = RIGHT;
+      path[count - 1] = NONE;
+      path[count] = NONE;
+    }
+
+    //FBF OR RBL = B
+    if((path[count - 2] == FORWARD && path[count] == FORWARD) || (path[count - 2] == RIGHT && path[count] == LEFT)){
+      path[count - 2] = BACK;
+      path[count - 1] = NONE;
+      path[count] = NONE;
+    }
+  }
+
+  return;
+}
+
 // displaying path decisions
 void MazeSolver::showPath(){
   display.gotoXY(0, 0);
@@ -91,6 +119,7 @@ void MazeSolver::checkIfDeadEnd() {
     // update path
     path[count] = BACK;
     count++;
+    simplifyPath();
 
     // display path
     showPath();
@@ -123,6 +152,7 @@ void MazeSolver::identifyJunction() {
           // update path
     path[count] = LEFT;
     count++;
+    simplifyPath();
 
     // display path
     showPath();
@@ -143,6 +173,7 @@ void MazeSolver::identifyJunction() {
     // update path
     path[count] = FORWARD;
     count++;
+    simplifyPath();
 
     // display path
     showPath();
@@ -153,13 +184,7 @@ void MazeSolver::identifyJunction() {
   // if there's a left take it
   if (lineSensorValues[4] > 750) {
     state = TURN_RIGHT;
-    
-    // update path
-    /*path[count] = RIGHT;
-    count++;
 
-    // display path
-    showPath();*/
     return;
  
   }
