@@ -10,6 +10,37 @@ MazeSolver::MazeSolver() {
   state = LINE_FOLLOWER;
 }
 
+// displaying path decisions
+void MazeSolver::showPath(){
+  display.gotoXY(0, 0);
+  for(int i = 0; i < 8; i++){
+    display.print(convertToCharacter(path[i]));
+  }
+  display.gotoXY(0, 1);
+  for(int i = 8; i < 16; i++){
+    display.print(convertToCharacter(path[i]));
+  }
+}
+
+//convert path desicions to characters
+char MazeSolver::convertToCharacter(Decisions name){
+  if(name == RIGHT){
+    return 'R';
+  }
+
+  if(name == LEFT){
+    return 'L';
+  }
+
+  if(name == BACK){
+   return 'B';
+  }
+
+  if(name == FORWARD){
+   return 'F';
+  }
+}
+
 void MazeSolver::followLine() {
   // get position & error
   int16_t position = lineSensors.readLineBlack(lineSensorValues);
@@ -50,12 +81,20 @@ void MazeSolver::checkIfJunction() {
 
 void MazeSolver::checkIfDeadEnd() {
   lineSensors.readLineBlack(lineSensorValues);
-  if (lineSensorValues[2] < 500) state = U_TURN;
+  if (lineSensorValues[2] < 500){ 
+    state = U_TURN;
+
+    // update path
+    path[count] = BACK;
+    count++;
+
+    // display path
+    showPath();
+  }
 }
 
 void MazeSolver::identifyJunction() {
 
-  display.clear();
 
   delay(500);
 
@@ -79,7 +118,16 @@ void MazeSolver::identifyJunction() {
   // if there's a left take it
   if (lineSensorValues[0] > 750) {
     state = TURN_LEFT;
+
+    // update path
+    path[count] = LEFT;
+    count++;
+
+    // display path
+    showPath();
+
     return;
+
   }
 
   if (lineSensorValues[2] > 750) {
@@ -87,13 +135,30 @@ void MazeSolver::identifyJunction() {
     delay(100);
 
     state = LINE_FOLLOWER;
+   
+
+    // update path
+    path[count] = FORWARD;
+    count++;
+
+    // display path
+    showPath();
+
     return;
   }
 
   // if there's a left take it
   if (lineSensorValues[4] > 750) {
     state = TURN_RIGHT;
+    
+    // update path
+    path[count] = RIGHT;
+    count++;
+
+    // display path
+    showPath();
     return;
+
   }
 
 
@@ -137,9 +202,8 @@ void MazeSolver::uTurn() {
 }
 
 void MazeSolver::loop() {
-  // display.clear();
-  display.gotoXY(0, 0);
-  display.print(state);
+
+  showPath();
 
   if (state == LINE_FOLLOWER) {
     followLine();

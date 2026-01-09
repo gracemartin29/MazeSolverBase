@@ -150,6 +150,8 @@ void showReadings()
   }
 }
 
+
+
 void setup()
 {
   // Uncomment if necessary to correct motor directions:
@@ -185,6 +187,5 @@ void setup()
 
 void loop()
 {
-  display.clear();
   mazeSolver.loop();
 }
