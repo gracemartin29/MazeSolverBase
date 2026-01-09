@@ -14,6 +14,7 @@ enum State {
 
 // Decisions needing to be remembered
 enum Decisions {
+  NONE,
   RIGHT,
   LEFT,
   BACK,

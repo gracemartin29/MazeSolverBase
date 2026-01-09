@@ -39,6 +39,10 @@ char MazeSolver::convertToCharacter(Decisions name){
   if(name == FORWARD){
    return 'F';
   }
+
+  if(name == NONE){
+    return ' ';
+  }
 }
 
 void MazeSolver::followLine() {
