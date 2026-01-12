@@ -74,6 +74,15 @@ char MazeSolver::convertToCharacter(Decisions name){
   }
 }
 
+// check if pololu has finshed the maze
+void MazeSolver::IsFinished(){
+  if(state == FINISHED){
+    return true;
+  } else {
+    return false;
+  }
+ }
+
 void MazeSolver::followLine() {
   // get position & error
   int16_t position = lineSensors.readLineBlack(lineSensorValues);

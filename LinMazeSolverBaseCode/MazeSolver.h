@@ -25,9 +25,6 @@ class MazeSolver {
   private:
   State state; // value of type state
 
-  Decisions path[64]; //creates vector for remembering path
-  int count = 0; 
-
   void simplifyPath();
 
   void showPath();
@@ -49,6 +46,11 @@ class MazeSolver {
   void uTurn();
   
   public:
+
+   Decisions path[64]; //creates vector for remembering path
+   int count = 0; 
+
+  void IsFinished();
 
     // constructor
     MazeSolver();
