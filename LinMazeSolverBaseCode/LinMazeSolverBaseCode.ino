@@ -150,8 +150,6 @@ void showReadings()
   }
 }
 
-
-
 void setup()
 {
   // Uncomment if necessary to correct motor directions:
@@ -186,11 +184,11 @@ void setup()
 }
 
 void loop(){
-  if(!mazeSolver.finished()){
+  if(!mazeSolver.IsFinished()){
     mazeSolver.loop();
     return;
   }
-
+display.gotoXY(0, 0);
 display.print(F("Finished"));
 
 }

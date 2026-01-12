@@ -50,7 +50,7 @@ class MazeSolver {
    Decisions path[64]; //creates vector for remembering path
    int count = 0; 
 
-   void IsFinished();
+   bool IsFinished();
 
     // constructor
     MazeSolver();

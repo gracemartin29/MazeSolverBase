@@ -10,6 +10,15 @@ MazeSolver::MazeSolver() {
   state = LINE_FOLLOWER;
 }
 
+// check if pololu has finshed the maze
+bool MazeSolver::IsFinished(){
+  if(state == FINISHED){
+    return true;
+  } else {
+    return false;
+  }
+ }
+
 //simplifies paths
 void MazeSolver::simplifyPath(){
   if(path[count - 1] == BACK){
@@ -73,15 +82,6 @@ char MazeSolver::convertToCharacter(Decisions name){
     return ' ';
   }
 }
-
-// check if pololu has finshed the maze
-void MazeSolver::IsFinished(){
-  if(state == FINISHED){
-    return true;
-  } else {
-    return false;
-  }
- }
 
 void MazeSolver::followLine() {
   // get position & error
