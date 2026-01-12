@@ -66,3 +66,7 @@ void SolutionFollower::checkIfJunction() {
     motors.setSpeeds(0, 0);
   }
 }
+
+void SolutionFollower::loop(){
+  followLine();
+}

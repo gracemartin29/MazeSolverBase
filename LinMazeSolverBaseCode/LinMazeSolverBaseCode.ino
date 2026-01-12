@@ -197,10 +197,19 @@ void loop(){
         solutionFollower.path[i] = d;
       }
         solutionFollower.totalLength = mazeSolver.count;
+
+        display.gotoXY(0, 1);
+        display.print(F("Finished"));
+
+        while(!buttonB.getSingleDebouncedPress());
     }
+    
+
     return;
   }
-display.gotoXY(0, 0);
-display.print(F("Finished"));
+
+
+  // if maze solver is finished follow solution
+  solutionFollower.loop();
 
 }

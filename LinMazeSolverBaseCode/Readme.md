@@ -1,5 +1,5 @@
 # Maze Solving Robot
-This is a Pololu 3PI project, where a pololu should be able to follow, solve and remember a maze.
+This is a Pololu 3PI project, where a pololu should be able to follow, solve, remember said solution and follow a maze with no wrong turns.
 
 ## Hardware
 - Pololu 3PI
