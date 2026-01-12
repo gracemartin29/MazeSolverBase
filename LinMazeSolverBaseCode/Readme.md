@@ -26,3 +26,6 @@ To run the software:
 4. Upload the code to the Pololu
 
 ## Setting up the Maze
+
+## Usage
+fake end
