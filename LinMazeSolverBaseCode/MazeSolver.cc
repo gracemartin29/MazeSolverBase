@@ -1,4 +1,3 @@
-
 #include <Pololu3piPlus32U4.h>
 #include <PololuMenu.h>
 
@@ -147,14 +146,11 @@ void MazeSolver::identifyJunction() {
   motors.setSpeeds(0, 0);
   lineSensors.readLineBlack(lineSensorValues);
 
-
-
   // if can sense everywhere -> FINISHED
   if (lineSensorValues[0] > 950 && lineSensorValues[1] > 950 && lineSensorValues[2] > 950 && lineSensorValues[3] > 950 && lineSensorValues[4] > 950) {
     state = FINISHED;
     return;
   }
-
 
   // if there's a left take it
   if (lineSensorValues[0] > 750) {
@@ -204,8 +200,6 @@ void MazeSolver::identifyJunction() {
   // any other case -> keep going
   state = LINE_FOLLOWER;
 }
-
-
 
 bool first = true;
 

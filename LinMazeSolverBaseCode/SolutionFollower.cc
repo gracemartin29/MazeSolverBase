@@ -1,9 +1,5 @@
 #include "SolutionFollower.h"
-
 #include "Shared.h"
-
-
-
 
 void SolutionFollower::followLine() {
   // get position & error

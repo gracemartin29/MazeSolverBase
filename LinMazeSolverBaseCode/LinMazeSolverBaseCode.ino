@@ -204,10 +204,8 @@ void loop(){
         while(!buttonB.getSingleDebouncedPress());
     }
     
-
     return;
   }
-
 
   // if maze solver is finished follow solution
   solutionFollower.loop();
