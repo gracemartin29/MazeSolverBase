@@ -193,7 +193,10 @@ void loop(){
     if(mazeSolver.IsFinished()){
       for (int i = 0; i < 64; i ++){
         Decisions d = mazeSolver.path[i];
+
+        solutionFollower.path[i] = d;
       }
+        solutionFollower.totalLength = mazeSolver.count;
     }
     return;
   }
