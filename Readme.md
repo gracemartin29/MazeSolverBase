@@ -55,7 +55,7 @@ Use the tape on the table/ surface to build your maze, keeping your lines as cle
 To make the finish line layer multiple lines of tape to make a thick recktangle.
 
 **Example:**  
-![alt text](<Example of a maze.png>)
+![example of maze](example_of_maze.jpg)
 
 ## Following the Maze!
 1. Place the Pololu at the start of the maze, ensuring it's as straight on the line as you can get.
