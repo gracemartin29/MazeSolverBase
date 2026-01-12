@@ -1,6 +1,8 @@
 # Maze Solving Robot
 This is a Pololu 3PI project, where a pololu should be able to follow, solve, remember said solution and follow a maze again with no wrong turns.
 
+This code uses the 'Hand on the Wall' searching algorithm to solve the maze. So it will keep going forward until it detects a junction and then always turn left turn left, until it finds its way out of the maze.
+
 ## Hardware
 - Pololu 3PI
 - USB Micro B Cable
@@ -17,7 +19,7 @@ This is a Pololu 3PI project, where a pololu should be able to follow, solve, re
 
 # Getting started
 ## Software
-Installing the Boards and Library:  
+### Installing the Boards and Library:  
 **Boards**
 1. In the Arduino IDE, open the File menu (Windows/Linux) or the Arduino menu (macOS) and select "Preferences".
 2. In the Preferences dialog, find the "Additional Boards Manager URLs" text box. Copy and paste the following URL into this box:
@@ -63,7 +65,7 @@ To make the finish line layer multiple lines of tape to make a thick recktangle.
 *note - making sure your maze is lit well from above and there are no large shadows, as the pololu can mistake it as a line and start trying to follow it*
 ## Following the Maze!
 1. Place the Pololu at the start of the maze, ensuring it's as straight on the line as you can get.
-2. Press 'B' to calabrate the Pololu
+2. Press 'B' to calabrate the Pololu.
 3. Once it has finished calabrating, presh 'B' again and it should start following the maze.
 
 4. Once it's reached the finish line, and now knows the quickest path to get through the maze, place the pololu back at the start of your maze and press 'B' again.
@@ -71,4 +73,4 @@ To make the finish line layer multiple lines of tape to make a thick recktangle.
 It should now go through the maze without making any unnecessary detors.
 
 ## Usage
-fake end
+Fake end

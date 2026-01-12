@@ -5,6 +5,7 @@ using namespace Pololu3piPlus32U4;
 
 #include "MazeSolver.h"
 #include "Shared.h"
+
 MazeSolver::MazeSolver() {
   state = LINE_FOLLOWER;
 }
@@ -130,7 +131,6 @@ void MazeSolver::checkIfDeadEnd() {
     simplifyPath();
     count++;
 
-
     // display path
     showPath();
   }
@@ -167,7 +167,6 @@ void MazeSolver::identifyJunction() {
 
     state = TURN_LEFT;
     return;
-
   }
 
   if (lineSensorValues[2] > 750) {
@@ -176,7 +175,6 @@ void MazeSolver::identifyJunction() {
 
     state = LINE_FOLLOWER;
    
-
     // update path
     path[count] = FORWARD;
     simplifyPath();
@@ -188,14 +186,12 @@ void MazeSolver::identifyJunction() {
     return;
   }
 
-  // if there's a left take it
+  // no left to take? turn right
   if (lineSensorValues[4] > 750) {
     state = TURN_RIGHT;
 
     return;
- 
   }
-
 
   // any other case -> keep going
   state = LINE_FOLLOWER;
@@ -235,12 +231,12 @@ void MazeSolver::uTurn() {
 }
 
 void MazeSolver::loop() {
-
+  // displays path taken as it goes through
   showPath();
 
   if (state == LINE_FOLLOWER) {
     followLine();
-    //check if junction there's a junction and change state otherwise
+    //check if junction there's a junction or dead end and change state otherwise
     checkIfJunction();
     checkIfDeadEnd();
   }

@@ -1,7 +1,7 @@
 #ifndef MAZE_H
 #define MAZE_H
 
-// enum creates a new type which can be used like any type
+// states the pololu can be in
 enum State {
   LINE_FOLLOWER,
   JUNCTION,

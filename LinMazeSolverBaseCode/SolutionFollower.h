@@ -25,7 +25,6 @@ class SolutionFollower {
     Decisions path[64];
     int totalLength;
 
-
   void loop();
 
 };

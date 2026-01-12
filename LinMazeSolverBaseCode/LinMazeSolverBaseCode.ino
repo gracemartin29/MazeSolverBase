@@ -186,10 +186,11 @@ void setup()
 }
 
 void loop(){
+  // if maze solver is not finished continue looping
   if(!mazeSolver.IsFinished()){
     mazeSolver.loop();
 
-//copy over correct path from maze solver
+//if maze solver is finished store correct path in solution
     if(mazeSolver.IsFinished()){
       for (int i = 0; i < 64; i ++){
         Decisions d = mazeSolver.path[i];
@@ -200,14 +201,11 @@ void loop(){
 
         display.gotoXY(0, 1);
         display.print(F("Finished"));
-
-        while(!buttonB.getSingleDebouncedPress());
+        while(!buttonB.getSingleDebouncedPress()); // press button to move on
     }
     
     return;
   }
-
-  // if maze solver is finished follow solution
+  //finished follow solution
   solutionFollower.loop();
-
 }
