@@ -185,7 +185,12 @@ void setup()
   // while(buzzer.isPlaying());
 }
 
-void loop()
-{
-  mazeSolver.loop();
+void loop(){
+  if(!mazeSolver.finished()){
+    mazeSolver.loop();
+    return;
+  }
+
+display.print(F("Finished"));
+
 }
