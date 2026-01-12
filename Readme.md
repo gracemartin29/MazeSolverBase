@@ -1,5 +1,5 @@
 # Maze Solving Robot
-This is a Pololu 3PI project, where a pololu should be able to follow, solve, remember said solution and follow a maze with no wrong turns.
+This is a Pololu 3PI project, where a pololu should be able to follow, solve, remember said solution and follow a maze again with no wrong turns.
 
 ## Hardware
 - Pololu 3PI
@@ -11,14 +11,14 @@ This is a Pololu 3PI project, where a pololu should be able to follow, solve, re
 - Pololu3piPlus32U4 Library
 
 ## Other Materials Needed
-- White, Smooth table
+- White, Smooth Tabel/ Surface
 - Black tape
-- Suitable lighting
+- Bright lighting
 
 # Getting started
 ## Software
 Installing the Boards and Library:  
-**Board**
+**Boards**
 1. In the Arduino IDE, open the File menu (Windows/Linux) or the Arduino menu (macOS) and select "Preferences".
 2. In the Preferences dialog, find the "Additional Boards Manager URLs" text box. Copy and paste the following URL into this box:
 
@@ -37,12 +37,21 @@ If there are already other URLs in the box, you can either add this one separate
 3. Click the "Install" button
 
 To run the software:
-1. Clone git
+1. Clone git https://github.com/gracemartin29/MazeSolverBase.git
 2. Open in Arduino IDE
 3. Connect the Pololu to computer through its USB Micro B port at the back, and select on the IDE
 4. Upload the code to the Pololu
 
 ## Setting up the Maze
+
+## Following the Maze!
+1. Place the Pololu at the start of the maze, ensuring it's as straight on the line as you can get.
+2. Press 'B' to calabrate the Pololu
+3. Once it has finished calabrating, presh 'B' again and it should start following the maze.
+
+4. Once it's reached the finish line, and now knows the quickest path to get through the maze, place the pololu back at the start of your maze and press 'B' again.
+
+It should now go through the maze without making any unnecessary detors.
 
 ## Usage
 fake end
