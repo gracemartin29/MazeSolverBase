@@ -43,6 +43,19 @@ To run the software:
 4. Upload the code to the Pololu
 
 ## Setting up the Maze
+The Pololu can turn left and right corners and deal with 4 different Junctions:
+- Cross ![cross junction](cross_junction.png)
+- T ![T junction](T_junction.png)
+- Half T (Left) ![half T left junction](half_T_L_junction.png)
+- Half T (Right)  
+![half T right junction](half_T_R_junction.png)
+
+Use the tape on the table/ surface to build your maze, keeping your lines as clean and straight as possible.
+
+To make the finish line layer multiple lines of tape to make a thick recktangle.
+
+**Example:**  
+![alt text](<Example of a maze.png>)
 
 ## Following the Maze!
 1. Place the Pololu at the start of the maze, ensuring it's as straight on the line as you can get.
