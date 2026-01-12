@@ -44,10 +44,13 @@ To run the software:
 
 ## Setting up the Maze
 The Pololu can turn left and right corners and deal with 4 different Junctions:
-- Cross ![cross junction](cross_junction.png)
-- T ![T junction](T_junction.png)
-- Half T (Left) ![half T left junction](half_T_L_junction.png)
-- Half T (Right)  
+- Cross  
+![cross junction](cross_junction.png)
+- T  
+![T junction](T_junction.png)
+- Half T (Left)  
+![half T left junction](half_T_L_junction.png)
+- Half T (Right)   
 ![half T right junction](half_T_R_junction.png)
 
 Use the tape on the table/ surface to build your maze, keeping your lines as clean and straight as possible.
