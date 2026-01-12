@@ -60,6 +60,7 @@ To make the finish line layer multiple lines of tape to make a thick recktangle.
 **Example:**  
 ![example of maze](example_of_maze.jpg)
 
+*note - making sure your maze is lit well from above and there are no large shadows, as the pololu can mistake it as a line and start trying to follow it*
 ## Following the Maze!
 1. Place the Pololu at the start of the maze, ensuring it's as straight on the line as you can get.
 2. Press 'B' to calabrate the Pololu
