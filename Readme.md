@@ -73,5 +73,31 @@ To make the finish line layer multiple lines of tape to make a thick recktangle.
 It should now go through the maze without making any unnecessary detors.
 
 ## Usage
-This code uses 2 main classes, MazeSolver and SolutionFollower.
-Fake end
+This code uses 2 main classes, MazeSolver and SolutionFollower. MazeSolver deals with exploring the whole maze and remembering the shortest path to the finish line, SolutionFollower deals with following that shortest path.
+
+### MazeFollower Class
+The Pololu has 7 different states it can be in, each with different protocols to follow:
+`enum State {LINE_FOLLOWER,
+  JUNCTION,
+  TURN_LEFT,
+  TURN_RIGHT,
+  U_TURN,
+  FINISHED,
+  FAKE_END
+};`
+
+<ins>LINE_FOLLOWER:</ins>   
+When the Pololu is in LINE_FOLLOWER state, it calls the followLine function. This function uses the Pololu sensor values to determine where the line it should be following is, how far away it is from said line and correct itself back onto the line. The function is called repeatedly until the Pololu encounters a junction or the finish line, at which point it enters a different state.  
+
+`position = lineSensors.readLineBlack(lineSensorValues);`  
+`error = position - 2000;`
+
+Position stores the values from the Pololu sensors, which indicate where the line to be followed is. If position is less than 2000, the line is going towards the left, and if position is greater than 2000, it is going towards the right. Error changes these values to centre = 0, > 0 = right and < 0 = left, to make it easier in the rest of the code.
+
+`int16_t speedDifference = error * (int32_t)proportioinal / 256 + (error - lastError) * (int32_t)derivative / 256;`
+
+Speed difference calculates how much the Pololu needs to correct its course. If it is negative, the left motor (leftSpeed) is decreased, and the right motor (rightSpeed) is increased. The opposite happens if it is positive. After these speeds are calculated, they are sent to the Pololu.
+
+`int16_t leftSpeed = (int16_t)baseSpeed + speedDifference;`
+`int16_t rightSpeed = (int16_t)baseSpeed - speedDifference;`
+`motors.setSpeed(leftSpeed, rightSpeed);`
