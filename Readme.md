@@ -77,6 +77,7 @@ This code uses 2 main classes, MazeSolver and SolutionFollower. MazeSolver deals
 
 ### MazeFollower Class
 The Pololu has 7 different states it can be in, each with different protocols to follow:
+
 `enum State {LINE_FOLLOWER,
   JUNCTION,
   TURN_LEFT,
@@ -101,3 +102,71 @@ Speed difference calculates how much the Pololu needs to correct its course. If 
 `int16_t leftSpeed = (int16_t)baseSpeed + speedDifference;`
 `int16_t rightSpeed = (int16_t)baseSpeed - speedDifference;`
 `motors.setSpeed(leftSpeed, rightSpeed);`
+
+<ins>JUNCTION:</ins>  
+Junctions are split into 2 functions: checkIfJunction (identify that there is a junction) and identifyJunction (how does the Pololu go about the junction). CheckIfJunction reads sensors 0, 1, 3, and 4, skipping sensor 2 (the centre sensor) on the Pololu. If any of them is greater than 950, it means there is a line to the left and/or right, and therefore it has encountered a junction.  
+
+`if (lineSensorValues[0] > 950) junction = true;  // detect a line to the left`  
+  `if (lineSensorValues[1] > 950) junction = true;  // detect a line to the left`  
+  `if (lineSensorValues[3] > 950) junction = true;  // detect a line to the right`  
+  `if (lineSensorValues[4] > 950) junction = true;  // detect a line to the right`  
+
+It uses junction as a boolean value, and when it is set to true, the Pololu's state is switched to JUNCTION, and the motor speeds are set to 0, pausing the Pololu’s movement.  
+
+`if (junction) {`  
+`state = JUNCTION;`   
+`motors.setSpeeds(0, 0);}`
+
+The next function, identifyJunction, works out what kind of junction the Polou is encountering (T, cross, half T, or the finish line), which determines how it will proceed. 
+
+Since this code using the hand on the wall algorithm, if there is a left in the junction (cross, T, half T left), it will always take it by changing its state to TURN_LEFT.  
+
+`if (lineSensorValues[0] > 750) {`
+`state = TURN_LEFT;`   
+`return;}`  
+
+However, if there is no left in the junction (half T right), it will continue forward, keeping its state on LINE_FOLLOWER.  
+
+`if (lineSensorValues[2] > 750) {`  
+`motors.setSpeeds(baseSpeed, baseSpeed);`   
+`delay(100);`    
+`state = LINE_FOLLOWER;`   
+`return;}`
+
+<ins>FINISHED:</ins>
+Still inside the identifyJunction function, if all sensors are high, the Pololu has found the finish line, and its state changes to FINISHED and the Pololu's motors stop.  
+
+`if (lineSensorValues[0] > 950 && lbineSensorValues[1] > 950 && lineSensorValues[2] > 950 && lineSensorValues[3] > 950 && lineSensorValues[4] > 950) {`  
+`state = FINISHED;`  
+`return;}`
+
+<ins>TURN_LEFT & TURN_RIGHT</ins>  
+When the Pololu is in the TURN_LEFT state, it enters the turnLeft function, where it takes a step forward, stops, its left motor turns backwards while its right turns forward, stops again and then switches its state back to LINE_FOLLOWER:  
+
+`motors.setSpeeds(baseSpeed, baseSpeed);`  
+`delay(250);`  
+`motors.setSpeeds(0, 0);`   
+`motors.setSpeeds(-baseSpeed, baseSpeed);`  
+`delay(760);`  
+`motors.setSpeeds(0, 0);`  
+`state = LINE_FOLLOWER;`
+
+The same happens for TURN_RIGHT, but instead the left motor turns forward, and the right motor turns backwards. This is where FAKE_END can be really useful.
+
+<ins>FAKE_END:</ins>  
+FAKE_END stops the Pololu and can be used as a placeholder to debug/ calibrate the Pololu while testing. To ensure the Pololu is properly lined up after a turn, you can use FAKE_END in place of LINE_FOLLOWER to stop the Pololu and adjust how much it turns by changing the delays after turning (i.e., how long it turns for).
+
+<ins>U_TURN:</ins>  
+U_TURN is needed when the Pololu reaches a dead end. The checkIfDeadEnd function sets Pololu’s state to U_TURN when sensor 2 is less than 500, i.e there is nothing in front of it.
+
+`if(lineSensorValues[2] < 500>){`  
+`state = U_TURN;}`
+
+Then the uTurn function is executed:
+
+`motors.setSpeeds(-baseSpeed, baseSpeed);`
+`delay(1620);`  
+`motors.setSpeeds(0, 0);`  
+`state = LINE_FOLLOWER;`
+
+<ins>**Remebering the shortest path:**</ins>
