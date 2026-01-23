@@ -147,7 +147,7 @@ void MazeSolver::identifyJunction() {
   lineSensors.readLineBlack(lineSensorValues);
 
   // if can sense everywhere -> FINISHED
-  if (lineSensorValues[0] > 950 && lineSensorValues[1] > 950 && lineSensorValues[2] > 950 && lineSensorValues[3] > 950 && lineSensorValues[4] > 950) {
+  if (lineSensorValues[0] > 950 && lbineSensorValues[1] > 950 && lineSensorValues[2] > 950 && lineSensorValues[3] > 950 && lineSensorValues[4] > 950) {
     state = FINISHED;
     return;
   }
@@ -174,7 +174,7 @@ void MazeSolver::identifyJunction() {
     delay(100);
 
     state = LINE_FOLLOWER;
-   
+    
     // update path
     path[count] = FORWARD;
     simplifyPath();

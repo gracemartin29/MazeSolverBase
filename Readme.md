@@ -73,4 +73,5 @@ To make the finish line layer multiple lines of tape to make a thick recktangle.
 It should now go through the maze without making any unnecessary detors.
 
 ## Usage
+This code uses 2 main classes, MazeSolver and SolutionFollower.
 Fake end
