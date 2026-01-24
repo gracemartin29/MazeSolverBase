@@ -121,7 +121,7 @@ The next function, identifyJunction, works out what kind of junction the Polou i
 
 Since this code is using the hand on the wall algorithm, if there is a left in the junction (cross, T, half T left), it will always take it by changing its state to TURN_LEFT.  
 
-`if (lineSensorValues[0] > 750) {`
+`if (lineSensorValues[0] > 750) {`  
 `state = TURN_LEFT;`   
 `return;}`  
 
@@ -170,8 +170,9 @@ Then the uTurn function is executed:
 `state = LINE_FOLLOWER;`
 
 **Remebering and simplifying the path**  
-<ins>Remebering the path:</ins>
+<ins>Remebering the path:</ins>  
 The Pololu can make 5 different decisions when navigating a junction:  
+
 `enum Decisions {NONE, RIGHT, LEFT, BACK, FORWARD};`
 
 These decisions are stored in an array called path, which is updated inside the identifyJunction function when the Pololu makes a turn. *Ex:*
