@@ -72,7 +72,7 @@ To make the finish line layer multiple lines of tape to make a thick recktangle.
 
 It should now go through the maze without making any unnecessary detors.
 
-## Usage
+## Code
 This code uses 2 main classes, MazeSolver and SolutionFollower. MazeSolver deals with exploring the whole maze and remembering the shortest path to the finish line, SolutionFollower deals with following that shortest path.
 
 ### MazeFollower Class
@@ -119,7 +119,7 @@ It uses junction as a boolean value, and when it is set to true, the Pololu's st
 
 The next function, identifyJunction, works out what kind of junction the Polou is encountering (T, cross, half T, or the finish line), which determines how it will proceed. 
 
-Since this code using the hand on the wall algorithm, if there is a left in the junction (cross, T, half T left), it will always take it by changing its state to TURN_LEFT.  
+Since this code is using the hand on the wall algorithm, if there is a left in the junction (cross, T, half T left), it will always take it by changing its state to TURN_LEFT.  
 
 `if (lineSensorValues[0] > 750) {`
 `state = TURN_LEFT;`   
@@ -133,7 +133,7 @@ However, if there is no left in the junction (half T right), it will continue fo
 `state = LINE_FOLLOWER;`   
 `return;}`
 
-<ins>FINISHED:</ins>
+<ins>FINISHED:</ins>  
 Still inside the identifyJunction function, if all sensors are high, the Pololu has found the finish line, and its state changes to FINISHED and the Pololu's motors stop.  
 
 `if (lineSensorValues[0] > 950 && lbineSensorValues[1] > 950 && lineSensorValues[2] > 950 && lineSensorValues[3] > 950 && lineSensorValues[4] > 950) {`  
@@ -169,4 +169,76 @@ Then the uTurn function is executed:
 `motors.setSpeeds(0, 0);`  
 `state = LINE_FOLLOWER;`
 
-<ins>**Remebering the shortest path:**</ins>
+**Remebering and simplifying the path**  
+<ins>Remebering the path:</ins>
+The Pololu can make 5 different decisions when navigating a junction:  
+`enum Decisions {NONE, RIGHT, LEFT, BACK, FORWARD};`
+
+These decisions are stored in an array called path, which is updated inside the identifyJunction function when the Pololu makes a turn. *Ex:*
+
+`if (lineSensorValues[0] > 750) {`  
+`path[count] = LEFT;`  
+`count++;}`  
+
+`state = TURN_LEFT;`  
+`return;`
+
+<ins>Simplifying the path:</ins>  
+Every time the Pololu records a BACK decision, that means it has made a wrong turn. So we only need to simplify the path when a BACK has been recorded.
+
+![alt text](<LBL-example.png>)  
+
+For instance, in this case, the Pololu will turn left, go back and turn left again, but simplified, it has gone forward. So LBL = F. The same logic can be applied to all scenarios, and we end up with 5 different simplifications:
+- LBL = F
+- LBF = R
+- FBL = R
+- FBF = B
+- RBL = B
+
+The simplifyPath function, which is called after every path update, performs these simplifications. *Ex:*  
+`if(path[count - 1] == BACK){`  
+`if(path[count - 2] == LEFT && path[count] == LEFT){`  
+`path[count - 2] = FORWARD;`  
+`path[count - 1] = NONE;`  
+`path[count] = NONE;}`
+
+<ins>Displaying the path:</ins>  
+It is also useful for the path to be displayed for debugging, so you can see any mistakes in real time.
+
+At the moment, the decisions are stored in path as integers. To make it easier to read, they are converted to characters like so, and displayed on the Pololu’s LCD screen. *Ex:*  
+
+`char MazeSolver::convertToCharacter(Decisions name){`  
+`if(name == RIGHT){`  
+`return 'R';}`
+
+### SolutionFollower Class
+Solution follower includes alot of the same functions that maze solver does.
+
+Functions:
+- followLine
+- checkIfJunction
+- identifyJunction
+- turnLeft
+- turnRight
+
+are all copied over. However identifyJunction is a little different, as instead of updating the path as it goes along it needs to take the already found shortest path.
+
+When the Pololu encounters a Junction, it checks the path array to see which way to go.  
+
+`Decisions d = path[count];`
+
+`switch(d){`  
+`case LEFT : {`  
+`state = TURN_LEFT;`  
+`break;}`  
+
+`case RIGHT : {`  
+`state = TURN_RIGHT;`  
+`break;}`  
+ 
+`case FORWARD : {`  
+`motors.setSpeeds(baseSpeed, baseSpeed);`   
+`delay(100);`  
+`state = LINE_FOLLOWER;`  
+`break;}}`  
+`count ++;`
