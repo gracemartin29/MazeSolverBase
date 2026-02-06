@@ -11,7 +11,9 @@ This code uses the 'Hand on the Wall' searching algorithm to solve the maze. So 
 ## Software
 - Arduino IDE
 - Pololu A-Star Boards
-- Pololu3piPlus32U4 Library
+- Pololu3piPlus32U4 Library  
+
+ *Software installation guide found below.*
 
 ## Other Materials Needed
 - White, Smooth Tabel/ Surface
