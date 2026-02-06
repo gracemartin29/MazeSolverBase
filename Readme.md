@@ -1,7 +1,8 @@
 # Maze Solving Robot
-This is a Pololu 3PI project, where a pololu should be able to follow, solve, remember said solution and follow a maze again with no wrong turns.
+This is a Pololu 3PI project, where a Pololu should be able to follow, solve, remember the solution, and navigate a maze again with no wrong turns.
 
-This code uses the 'Hand on the Wall' searching algorithm to solve the maze. So it will keep going forward until it detects a junction and then always turn left turn left, until it finds its way out of the maze.
+This code uses the 'Hand on the Wall' searching algorithm to solve the maze. So it will keep going forward until it detects a junction and then always turns left, until it finds its way out of the maze.
+
 
 ## Hardware
 - Pololu 3PI
