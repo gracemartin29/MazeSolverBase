@@ -110,71 +110,21 @@ The Pololu can make 5 different decisions when navigating a junction:
 
 `enum Decisions {NONE, RIGHT, LEFT, BACK, FORWARD};`
 
-These decisions are stored in an array called path, which is updated inside the identifyJunction function when the Pololu makes a turn. *Ex:*
-
-`if (lineSensorValues[0] > 750) {`  
-`path[count] = LEFT;`  
-`count++;}`  
-
-`state = TURN_LEFT;`  
-`return;`
+These decisions are stored in an array called path, which is updated inside the `identifyJunction` function when the Pololu makes a turn. 
 
 <ins>Simplifying the path:</ins>  
-Every time the Pololu records a BACK decision, that means it has made a wrong turn. So we only need to simplify the path when a BACK has been recorded.
+Every time the Pololu records a BACK decision, that means it has made a wrong turn. So the path only needs to be simplified when a BACK has been recorded.
 
 ![alt text](<LBL-example.png>)  
 
-For instance, in this case, the Pololu will turn left, go back and turn left again, but simplified, it has gone forward. So LBL = F. The same logic can be applied to all scenarios, and we end up with 5 different simplifications:
+For example, in this case, the Pololu will turn left, go back and turn left again, but simplified, it has gone forward. So LBL = F. The same logic can be applied to all scenarios, and we end up with 5 different simplifications:
 - LBL = F
 - LBF = R
 - FBL = R
 - FBF = B
 - RBL = B
 
-The simplifyPath function, which is called after every path update, performs these simplifications. *Ex:*  
-`if(path[count - 1] == BACK){`  
-`if(path[count - 2] == LEFT && path[count] == LEFT){`  
-`path[count - 2] = FORWARD;`  
-`path[count - 1] = NONE;`  
-`path[count] = NONE;}`
-
-<ins>Displaying the path:</ins>  
-It is also useful for the path to be displayed for debugging, so you can see any mistakes in real time.
-
-At the moment, the decisions are stored in path as integers. To make it easier to read, they are converted to characters like so, and displayed on the Pololu’s LCD screen. *Ex:*  
-
-`char MazeSolver::convertToCharacter(Decisions name){`  
-`if(name == RIGHT){`  
-`return 'R';}`
+The `simplifyPath` function, which is called after every path update, performs these simplifications. 
 
 ### SolutionFollower Class
-Solution follower includes alot of the same functions that maze solver does.
-
-Functions:
-- followLine
-- checkIfJunction
-- identifyJunction
-- turnLeft
-- turnRight
-
-are all copied over. However identifyJunction is a little different, as instead of updating the path as it goes along it needs to take the already found shortest path.
-
-When the Pololu encounters a Junction, it checks the path array to see which way to go.  
-
-`Decisions d = path[count];`
-
-`switch(d){`  
-`case LEFT : {`  
-`state = TURN_LEFT;`  
-`break;}`  
-
-`case RIGHT : {`  
-`state = TURN_RIGHT;`  
-`break;}`  
- 
-`case FORWARD : {`  
-`motors.setSpeeds(baseSpeed, baseSpeed);`   
-`delay(100);`  
-`state = LINE_FOLLOWER;`  
-`break;}}`  
-`count ++;`
+Solution follower uses the same `followLine`, `checkIfJunction`, `turnLeft` and `turnRight` functions as Maze solver does. However, solution followers `identifyJunction` function checks the path array to see which direction to take.
