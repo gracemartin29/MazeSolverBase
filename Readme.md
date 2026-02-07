@@ -91,86 +91,18 @@ The Pololu has 7 different states it can be in, each with different protocols to
 };`
 
 <ins>LINE_FOLLOWER:</ins>   
-When the Pololu is in LINE_FOLLOWER state, it calls the followLine function. This function uses the Pololu sensor values to determine where the line it should be following is, how far away it is from said line and correct itself back onto the line. The function is called repeatedly until the Pololu encounters a junction or the finish line, at which point it enters a different state.  
+When the Pololu is in LINE_FOLLOWER state it simply follows a line. This is done in the `followLine` function, which uses a PD (Proportional / Differential) strategy. 
 
-`position = lineSensors.readLineBlack(lineSensorValues);`  
-`error = position - 2000;`
-
-Position stores the values from the Pololu sensors, which indicate where the line to be followed is. If position is less than 2000, the line is going towards the left, and if position is greater than 2000, it is going towards the right. Error changes these values to centre = 0, > 0 = right and < 0 = left, to make it easier in the rest of the code.
-
-`int16_t speedDifference = error * (int32_t)proportioinal / 256 + (error - lastError) * (int32_t)derivative / 256;`
-
-Speed difference calculates how much the Pololu needs to correct its course. If it is negative, the left motor (leftSpeed) is decreased, and the right motor (rightSpeed) is increased. The opposite happens if it is positive. After these speeds are calculated, they are sent to the Pololu.
-
-`int16_t leftSpeed = (int16_t)baseSpeed + speedDifference;`
-`int16_t rightSpeed = (int16_t)baseSpeed - speedDifference;`
-`motors.setSpeed(leftSpeed, rightSpeed);`
+When in LINE_FOLLOWER state, the Pololu checks for junctions or dead ends. If either of these is encountered, the state will change accordingly to JUNCTION or U_TURN.
 
 <ins>JUNCTION:</ins>  
-Junctions are split into 2 functions: checkIfJunction (identify that there is a junction) and identifyJunction (how does the Pololu go about the junction). CheckIfJunction reads sensors 0, 1, 3, and 4, skipping sensor 2 (the centre sensor) on the Pololu. If any of them is greater than 950, it means there is a line to the left and/or right, and therefore it has encountered a junction.  
-
-`if (lineSensorValues[0] > 950) junction = true;  // detect a line to the left`  
-  `if (lineSensorValues[1] > 950) junction = true;  // detect a line to the left`  
-  `if (lineSensorValues[3] > 950) junction = true;  // detect a line to the right`  
-  `if (lineSensorValues[4] > 950) junction = true;  // detect a line to the right`  
-
-It uses junction as a boolean value, and when it is set to true, the Pololu's state is switched to JUNCTION, and the motor speeds are set to 0, pausing the Pololu’s movement.  
-
-`if (junction) {`  
-`state = JUNCTION;`   
-`motors.setSpeeds(0, 0);}`
-
-The next function, identifyJunction, works out what kind of junction the Polou is encountering (T, cross, half T, or the finish line), which determines how it will proceed. 
-
-Since this code is using the hand on the wall algorithm, if there is a left in the junction (cross, T, half T left), it will always take it by changing its state to TURN_LEFT.  
-
-`if (lineSensorValues[0] > 750) {`  
-`state = TURN_LEFT;`   
-`return;}`  
-
-However, if there is no left in the junction (half T right), it will continue forward, keeping its state on LINE_FOLLOWER.  
-
-`if (lineSensorValues[2] > 750) {`  
-`motors.setSpeeds(baseSpeed, baseSpeed);`   
-`delay(100);`    
-`state = LINE_FOLLOWER;`   
-`return;}`
+When in JUNCTION state, the `identifyJunction` function is used to identify which direction to take (left, right or forward) depending on what kind of junction it has encountered (Cross, T or Half-T), and changes state accordingly.
 
 <ins>FINISHED:</ins>  
-Still inside the identifyJunction function, if all sensors are high, the Pololu has found the finish line, and its state changes to FINISHED and the Pololu's motors stop.  
-
-`if (lineSensorValues[0] > 950 && lbineSensorValues[1] > 950 && lineSensorValues[2] > 950 && lineSensorValues[3] > 950 && lineSensorValues[4] > 950) {`  
-`state = FINISHED;`  
-`return;}`
-
-<ins>TURN_LEFT & TURN_RIGHT</ins>  
-When the Pololu is in the TURN_LEFT state, it enters the turnLeft function, where it takes a step forward, stops, its left motor turns backwards while its right turns forward, stops again and then switches its state back to LINE_FOLLOWER:  
-
-`motors.setSpeeds(baseSpeed, baseSpeed);`  
-`delay(250);`  
-`motors.setSpeeds(0, 0);`   
-`motors.setSpeeds(-baseSpeed, baseSpeed);`  
-`delay(760);`  
-`motors.setSpeeds(0, 0);`  
-`state = LINE_FOLLOWER;`
-
-The same happens for TURN_RIGHT, but instead the left motor turns forward, and the right motor turns backwards. This is where FAKE_END can be really useful.
+The finish line is also identified in the `identifyJunction` function and the state changes to FINISHED
 
 <ins>FAKE_END:</ins>  
-FAKE_END stops the Pololu and can be used as a placeholder to debug/ calibrate the Pololu while testing. To ensure the Pololu is properly lined up after a turn, you can use FAKE_END in place of LINE_FOLLOWER to stop the Pololu and adjust how much it turns by changing the delays after turning (i.e., how long it turns for).
-
-<ins>U_TURN:</ins>  
-U_TURN is needed when the Pololu reaches a dead end. The checkIfDeadEnd function sets Pololu’s state to U_TURN when sensor 2 is less than 500, i.e there is nothing in front of it.
-
-`if(lineSensorValues[2] < 500>){`  
-`state = U_TURN;}`
-
-Then the uTurn function is executed:
-
-`motors.setSpeeds(-baseSpeed, baseSpeed);`
-`delay(1620);`  
-`motors.setSpeeds(0, 0);`  
-`state = LINE_FOLLOWER;`
+FAKE_END is used as a placeholder to debug/ calibrate the Pololu while testing. To ensure the Pololu is properly lined up after a turn, you can use FAKE_END in place of LINE_FOLLOWER to stop the Pololu and adjust how much it turns.
 
 **Remebering and simplifying the path**  
 <ins>Remebering the path:</ins>  
