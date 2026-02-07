@@ -128,3 +128,6 @@ The `simplifyPath` function, which is called after every path update, performs t
 
 ### SolutionFollower Class
 Solution follower uses the same `followLine`, `checkIfJunction`, `turnLeft` and `turnRight` functions as Maze solver does. However, solution followers `identifyJunction` function checks the path array to see which direction to take.
+
+# Future Developments
+To improve this code futher, I would change the solution follower class to a child of the maze solver class using inheritance.
